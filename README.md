@@ -34,7 +34,14 @@ print(download_url)
 # Obtains the platform dependent JDK download url
 
 download_url = jdk.get_download_url('11', jre=True)
+print(download_url)
 # Obtains the platform dependent JRE download url
+
+jdk.uninstall('11')
+# Removes the Java 11 JDK if installed
+
+jdk.uninstall('11', jre=True)
+# Removes the Java 11 JRE if installed
 ```
 
 ## Development
