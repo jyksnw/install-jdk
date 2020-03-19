@@ -164,7 +164,6 @@ def install(
         impl: str = Implementation.HOTSPOT,
         jre: bool = False) -> str:
     url = get_download_url(version, operating_system, arch, impl, jre)
-    print(url)
 
     jdk_file = None
     try:
@@ -179,3 +178,17 @@ def install(
     finally:
         if jdk_file:
             os.remove(jdk_file)
+
+
+def uninstall(version: str, jre: bool = False):
+    version = f'jdk{version}'
+    if jre:
+        versions = (v for v in os.listdir(_JRE_DIR)
+                    if version in v.replace('-', ''))
+        for v in versions:
+            shutil.rmtree(path.join(_JRE_DIR, v))
+    else:
+        versions = (v for v in os.listdir(_JDK_DIR)
+                    if version in v.replace('-', ''))
+        for v in versions:
+            shutil.rmtree(path.join(_JDK_DIR, v))
