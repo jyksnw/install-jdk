@@ -2,6 +2,8 @@
 
 A simple python utility that can be used to download and install a give Java JDK or JRE. Utilizes the [AdoptOpenJDK API](https://api.adoptopenjdk.net/swagger-ui/#/Binary).
 
+This is a port of from the GitHub Action [`installjdk`](https://github.com/AdoptOpenJDK/install-jdk)
+
 Currently supports 32-bit and 64-bit versions of Windows, Linux, and macOS.
 
 ## Install
