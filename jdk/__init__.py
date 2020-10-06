@@ -1,4 +1,3 @@
-import os
 import cgi
 import zipfile
 import tarfile
@@ -10,7 +9,7 @@ from collections import namedtuple
 from subprocess import run
 from urllib import request
 from sys import platform, maxsize
-from os import path
+from os import path, system
 
 _IS_WINDOWS = os.name == 'nt'
 _UNPACK200 = 'unpack200.exe' if _IS_WINDOWS else 'unpack200'
@@ -192,3 +191,7 @@ def uninstall(version: str, jre: bool = False):
                     if version in v.replace('-', ''))
         for v in versions:
             shutil.rmtree(path.join(_JDK_DIR, v))
+
+def isJavaInstalled():
+    print("Checking java...")
+    return system("java -version") == 0
