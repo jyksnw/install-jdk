@@ -193,6 +193,6 @@ def uninstall(version: str, jre: bool = False):
         for v in versions:
             shutil.rmtree(path.join(_JDK_DIR, v))
 
-def isJavaInstalled():
+def is_java_installed():
     print("Checking java...")
     return system("java -version") == 0
