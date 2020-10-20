@@ -13,13 +13,14 @@ from sys import platform, maxsize
 from os import path
 
 _IS_WINDOWS = os.name == 'nt'
+_IS_DARWIN = platform == 'darwin'
 _UNPACK200 = 'unpack200.exe' if _IS_WINDOWS else 'unpack200'
 _UNPACK200_ARGS = '-r -v -l ""' if _IS_WINDOWS else ''
 _USER_DIR = path.expanduser('~')
 _JRE_DIR = path.join(_USER_DIR, '.jre')
 _JDK_DIR = path.join(_USER_DIR, '.jdk')
 
-OS = 'windows' if _IS_WINDOWS else platform
+OS = 'windows' if _IS_WINDOWS else 'mac' if _IS_DARWIN else platform
 ARCH = 'x64' if maxsize > 2**32 else 'x32'
 
 _Path = namedtuple('_Path', 'dir base name ext')
