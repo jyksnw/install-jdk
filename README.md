@@ -1,6 +1,6 @@
 # install-jdk
 
-A simple python utility that can be used to download and install a give Java JDK or JRE. Utilizes the [AdoptOpenJDK API](https://api.adoptopenjdk.net/swagger-ui/#/Binary).
+A simple python utility that can be used to download and install a given Java JDK or JRE. Utilizes the [AdoptOpenJDK API](https://api.adoptopenjdk.net/swagger-ui/#/Binary).
 
 This is a port of from the GitHub Action [`installjdk`](https://github.com/AdoptOpenJDK/install-jdk)
 
