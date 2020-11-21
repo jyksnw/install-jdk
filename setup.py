@@ -2,24 +2,24 @@ from os import path
 from setuptools import setup
 
 
-VERSION = '0.2.0'
+VERSION = "0.2.0"
 
 
 def read(file_name):
-    with open(path.join(path.dirname(__file__), file_name), encoding='utf-8') as file:
+    with open(path.join(path.dirname(__file__), file_name), encoding="utf-8") as file:
         return file.read()
 
 
 setup(
-    name='install-jdk',
+    name="install-jdk",
     version=VERSION,
-    author='Jason Snow',
-    author_email='jsn.snw@gmail.com',
+    author="Jason Snow",
+    author_email="jsn.snw@gmail.com",
     url="https://github.com/jyksnw/install-jdk",
     keywords="AdoptOpenJDK Java jdk jre",
-    description='Installs AdoptOpenJDK Java',
-    long_description=read('README.md'),
-    long_description_content_type='text/markdown',
+    description="Installs AdoptOpenJDK Java",
+    long_description=read("README.md"),
+    long_description_content_type="text/markdown",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
@@ -29,6 +29,6 @@ setup(
         "Topic :: Software Development",
         "Topic :: Utilities",
     ],
-    python_requires='>=3.6',
-    packages=['jdk'],
+    python_requires=">=3.6",
+    packages=["jdk"],
 )
