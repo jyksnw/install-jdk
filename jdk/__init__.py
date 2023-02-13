@@ -168,8 +168,9 @@ def install(
         jdk_file = _download(url)
         jdk_ext = _get_normalized_compressed_file_ext(jdk_file)
         jdk_dir = _decompress_archive(jdk_file, jdk_ext, path)
-
         return jdk_dir
+    except BaseException as e:
+        raise e
     finally:
         if jdk_file:
             os.remove(jdk_file)
