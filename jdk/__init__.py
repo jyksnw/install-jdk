@@ -21,7 +21,7 @@ _JRE_DIR = path.join(_USER_DIR, ".jre")
 _JDK_DIR = path.join(_USER_DIR, ".jdk")
 
 OS = "windows" if _IS_WINDOWS else "mac" if _IS_DARWIN else platform
-ARCH = "x64" if maxsize > 2 ** 32 else "x32"
+ARCH = "x64" if maxsize > 2**32 else "x32"
 
 _Path = namedtuple("_Path", "dir base name ext")
 
@@ -32,7 +32,6 @@ _SEVEN_ZIP = ".7z"
 
 
 class Implementation:
-
     OPENJ9 = "openj9"
     HOTSPOT = "hotspot"
 
@@ -50,7 +49,6 @@ def get_download_url(
     impl: str = Implementation.HOTSPOT,
     jre: bool = False,
 ) -> str:
-
     version = normalize_version(version)
     if jre:
         return f"https://api.adoptopenjdk.net/v3/binary/latest/{version}/ga/{operating_system}/{arch}/jre/{impl}/normal/adoptopenjdk"

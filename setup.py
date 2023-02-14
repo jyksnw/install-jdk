@@ -2,7 +2,7 @@ from os import path
 from setuptools import setup
 
 
-VERSION = "0.2.0"
+VERSION = "1.0.0"
 
 
 def read(file_name):
