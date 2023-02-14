@@ -1,11 +1,15 @@
 import os
 import cgi
+from typing import Iterable, Optional, Union
 import zipfile
 import tarfile
 import lzma
 import shutil
 import tempfile
 
+from tarfile import TarFile
+from zipfile import ZipFile, ZipInfo
+from lzma import LZMAFile
 from collections import namedtuple
 from subprocess import run
 from urllib import request
@@ -67,22 +71,44 @@ def _get_normalized_compressed_file_ext(file: str) -> str:
         return _SEVEN_ZIP
 
 
+def _is_within_directory(directory: str, target: str):
+    abs_directory = os.path.abspath(directory)
+    abs_target = os.path.abspath(target)
+
+    prefix = os.path.commonprefix([abs_directory, abs_target])
+    return prefix == abs_directory
+
+
+def _safe_extract(
+    tar: Union[TarFile, ZipFile, LZMAFile],
+    path: Optional[str] = None,
+    members: Optional[Iterable[Union[str, ZipInfo]]] = None,
+    *,
+    numeric_owner: bool = False,
+):
+    for member in tar.getmembers():
+        member_path = os.path.join(path, member.name)
+        if not _is_within_directory(path, member_path):
+            raise Exception("Attempted Path Traversal in Tar File")
+    tar.extractall(path, members, numeric_owner=numeric_owner)
+
+
 def _extract_files(file: str, file_ending: str, destination_folder: str) -> str:
     if path.isfile(file):
         start_listing = set(os.listdir(destination_folder))
 
         if file_ending == _TAR:
             with tarfile.open(file, "r:") as tar:
-                tar.extractall(path=destination_folder)
+                _safe_extract(tar, path=destination_folder)
         elif file_ending == _TAR_GZ:
             with tarfile.open(file, "r:gz") as tar:
-                tar.extractall(path=destination_folder)
+                _safe_extract(tar, path=destination_folder)
         elif file_ending == _ZIP:
             with zipfile.ZipFile(file) as z:
-                z.extractall(path=destination_folder)
+                _safe_extract(z, path=destination_folder)
         elif file_ending == _SEVEN_ZIP:
             with lzma.open(file) as z:
-                z.extractall(path=destination_folder)
+                _safe_extract(z, path=destination_folder)
 
         end_listing = set(os.listdir(destination_folder))
         jdk_directory = next(iter(end_listing.difference(start_listing)))
