@@ -14,7 +14,7 @@ setup(
     name="install-jdk",
     version=VERSION,
     author="Jason Snow",
-    author_email="jsn.snw@gmail.com",
+    author_email="jason.snow@outlook.com",
     url="https://github.com/jyksnw/install-jdk",
     keywords="AdoptOpenJDK Java jdk jre",
     description="Installs AdoptOpenJDK Java",
