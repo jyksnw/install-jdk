@@ -36,7 +36,6 @@ _SEVEN_ZIP = ".7z"
 
 
 class Implementation:
-    OPENJ9 = "openj9"
     HOTSPOT = "hotspot"
 
 
