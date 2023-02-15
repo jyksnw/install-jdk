@@ -11,7 +11,7 @@ from jdk.enums import (
     CLib,
     Project,
 )
-from .client import Client
+from .client import Client, vendor_client
 
 
 AdoptiumJvmImpl = JvmImpl
@@ -23,6 +23,7 @@ class AdoptiumEnvironment(BaseEnum):
     STAGE = "https://staging-api.adoptium.net"
 
 
+@vendor_client(["Adoptium", Vendor.ECLIPSE.value, "Temurin", "AdoptOpenJDK"])
 class AdoptiumClient(Client):
     def __init__(
         self, environment: AdoptiumEnvironment = AdoptiumEnvironment.PRODUCTION

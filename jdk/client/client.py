@@ -3,11 +3,15 @@ import shutil
 import tempfile
 from os import path
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import List, Optional, Callable, Union
 from urllib import request
 from urllib.parse import urlsplit
+from collections.abc import Iterable
 
-from jdk.enums import Architecture, OperatingSystem, JvmImpl, Implementation
+from jdk.enums import Architecture, OperatingSystem, JvmImpl, Implementation, Vendor
+
+
+_vendor_clients = dict()
 
 
 class ClientException(Exception):
@@ -52,3 +56,24 @@ class Client(ABC):
                 with open(jdk_file, "wb") as out_file:
                     shutil.copyfileobj(open_request, out_file)
         return jdk_file
+
+
+def vendor_client(
+    vendor: Union[Vendor, str, List[Vendor], List[str]]
+) -> Callable[[Client], Client]:
+    def wrapper(client: Client) -> Client:
+        if isinstance(vendor, Iterable):
+            unique_vendors = set(vendor)
+            for unique_vendor in unique_vendors:
+                _vendor_clients[str(unique_vendor)] = client
+        else:
+            _vendor_clients[str(vendor)] = client
+        return client
+
+    return wrapper
+
+
+def load_client(vendor: Union[Vendor, str]) -> Optional[Client]:
+    vendor_name = str(vendor)
+    if vendor_name in _vendor_clients:
+        return _vendor_clients[vendor_name]

@@ -1,8 +1,8 @@
-from enum import Enum, EnumMeta
-from typing import Optional
+from enum import Enum
+from typing import Any, Optional, SupportsIndex
 
 
-class MetaEnum(EnumMeta):
+class BaseEnum(str, Enum):
     def __contains__(self: type[Enum], obj: object) -> bool:
         try:
             self(obj)
@@ -14,9 +14,20 @@ class MetaEnum(EnumMeta):
     def __str__(self) -> str:
         return self.value
 
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, Enum):
+            return self.value == other.value
+        return False
 
-class BaseEnum(str, Enum, metaclass=MetaEnum):
-    pass
+
+class BaseDetectableEnum(BaseEnum):
+    @classmethod
+    def detect(cls) -> Optional[Any]:
+        raise NotImplementedError("detect")
+
+    @classmethod
+    def transform(cls, other: "BaseDetectableEnum") -> Optional["BaseDetectableEnum"]:
+        raise NotImplementedError("transform")
 
 
 class JvmImpl(BaseEnum):
@@ -29,7 +40,8 @@ Implementation = JvmImpl
 class Vendor(BaseEnum):
     ECLIPSE = "eclipse"
 
-class Architecture(BaseEnum):
+
+class Architecture(BaseDetectableEnum):
     @classmethod
     def detect(cls) -> Optional["Architecture"]:
         from platform import machine
@@ -47,7 +59,11 @@ class Architecture(BaseEnum):
             if maxsize > 2**32:
                 return Architecture.X64
             else:
-                return Architecture.X32
+                return Architecture.X86
+
+    @classmethod
+    def transform(cls, other: "Architecture") -> Optional["Architecture"]:
+        return other
 
     X64 = "x64"
     X86 = "x86"
@@ -81,7 +97,7 @@ class ImageType(BaseEnum):
     SBOM = "sbom"
 
 
-class OperatingSystem(BaseEnum):
+class OperatingSystem(BaseDetectableEnum):
     @classmethod
     def detect(cls) -> Optional["OperatingSystem"]:
         from sys import platform
@@ -94,6 +110,10 @@ class OperatingSystem(BaseEnum):
             return OperatingSystem.MAC
         elif "aix" in platform:
             return OperatingSystem.AIX
+
+    @classmethod
+    def transform(cls, other: "OperatingSystem") -> Optional["OperatingSystem"]:
+        return other
 
     LINUX = "linux"
     WINDOWS = "windows"
