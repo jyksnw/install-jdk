@@ -1,5 +1,8 @@
 # install-jdk
 
+[WORK IN PROGRESS]
+This client is currently being revamped for a v1.0 release. With added support for additional OpenJDK Build clients. Currently the updates support Adoptium and Corretto. The underlying library that drives this client is also being revamped to enable additional functionality down the road. The initial pre-release of v0.x methods and exposed API calls will be maintained for backwards compatibility.
+
 A simple python utility that can be used to download and install a given Java JDK or JRE. Utilizes the [AdoptOpenJDK API](https://api.adoptopenjdk.net/swagger-ui/#/Binary).
 
 This is a port of from the GitHub Action [`installjdk`](https://github.com/AdoptOpenJDK/install-jdk)
