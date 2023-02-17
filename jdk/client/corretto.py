@@ -8,11 +8,25 @@ from jdk.enums import (
     Architecture,
     JvmImpl,
     ImageType,
+    Vendor,
+    Environment,
 )
 from jdk.extension import extends
 from .client import Client, ClientException, vendor_client
 
 _INDEX_MAP_URL = "https://raw.githubusercontent.com/corretto/corretto-downloads/main/latest_links/indexmap_with_checksum.json"
+
+
+@extends(Vendor)
+class CorrettoVendor(BaseEnum):
+    CORRETTO = "Corretto"
+    AMAZON = "Amazon"
+    AWS = "AWS"
+
+
+@extends(ImageType)
+class CorrettoImageType(BaseEnum):
+    HEADLESS = "headless"
 
 
 @extends(OperatingSystem)
@@ -40,49 +54,65 @@ class CorrettoOperatingSystem(BaseDetectableEnum):
     MACOS = "macos"
 
 
+@extends(Environment)
 class CorrettoEnvironment(BaseEnum):
     PRODUCTION = "https://corretto.aws"
 
 
-@vendor_client(["Corretto", "Amazon", "AWS"])
+class CorrettoResourceBuilder:
+    def __init__(self, index_map: dict) -> None:
+        self._index_map = index_map
+        self._file_format = "tar.gz"
+
+        self.operating_system: CorrettoOperatingSystem = OperatingSystem.LINUX
+        self.architecure: Architecture = Architecture.X64
+        self.image_type: CorrettoImageType = ImageType.JDK
+        self.versrion = None
+
+    def _get_resource(self) -> Optional[str]:
+        return self._index_map_position[self._file_format]["resource"]
+
+    def set_operating_system(
+        self, operating_system: CorrettoOperatingSystem
+    ) -> "CorrettoResourceBuilder":
+        if operating_system == OperatingSystem.WINDOWS:
+            self._file_format = "zip"
+        self.operating_system = operating_system
+        return self
+
+    def set_architecture(self, architecture: Architecture) -> "CorrettoResourceBuilder":
+        self.architecure = architecture
+        return self
+
+    def set_image_type(
+        self, image_type: CorrettoImageType
+    ) -> "CorrettoResourceBuilder":
+        self.image_type = image_type
+        return self
+
+    def set_version(self, version: str) -> "CorrettoResourceBuilder":
+        self.versrion = version
+        return self
+
+    def build(self, version: Optional[str] = None) -> str:
+        if version is not None:
+            self.versrion = version
+
+        return self._index_map[self.operating_system.value][self.architecure.value][
+            self.image_type.value
+        ][self.versrion][self._file_format]["resource"]
+
+
+@vendor_client(CorrettoVendor)
 class CorrettoClient(Client):
     _index_map = None
 
     @classmethod
     def load_index_map(cls) -> Optional[Any]:
-        from collections import namedtuple
-
-        def _object_hook(data: dict) -> namedtuple:
-            def fix_key(key: Any):
-                key_str = str(key)
-                if key_str.isnumeric():
-                    return f"v{key}"
-                elif key_str == "arm-musl":
-                    return "arm_musl"
-                elif key in (
-                    "tar.gz",
-                    "tar.gz.pub",
-                    "tar.gz.sig",
-                    "zip.pub",
-                    "zip.sig",
-                ):
-                    if key_str == "tar.gz":
-                        return "tar"
-                    else:
-                        return key_str.replace(".", "_")
-                else:
-                    return key
-
-            return namedtuple(
-                "CorrettoData",
-                [fix_key(key) for key in data.keys()],
-            )(*data.values())
-
         try:
             if cls._index_map is None:
                 cls._index_map = json.loads(
-                    urlopen(_INDEX_MAP_URL).read().decode("utf-8"),
-                    object_hook=_object_hook,
+                    urlopen(_INDEX_MAP_URL).read().decode("utf-8")
                 )
         except Exception as e:
             raise ClientException(e)
@@ -90,9 +120,14 @@ class CorrettoClient(Client):
             return cls._index_map
 
     def __init__(
-        self, environment: CorrettoEnvironment = CorrettoEnvironment.PRODUCTION
+        self, environment: Environment = CorrettoEnvironment.PRODUCTION
     ) -> None:
-        self._base_url = environment.value
+        if environment == Environment.DEFAULT:
+            base_url = CorrettoEnvironment.PRODUCTION.value
+        else:
+            base_url = environment.value
+        super().__init__(base_url)
+        
         self._index_map = CorrettoClient.load_index_map()
 
     def get_download_url(
@@ -102,45 +137,30 @@ class CorrettoClient(Client):
         arch: Optional[Architecture] = None,
         impl: JvmImpl = JvmImpl.HOTSPOT,
         jre: bool = False,
+        *,
+        image_type: CorrettoImageType = ImageType.JDK,
     ) -> str:
-        version = self.normalize_version(version)
+        builder = CorrettoResourceBuilder(self._index_map)
+
+        version = Client.normalize_version(version)
+        builder.set_version(version)
 
         if operating_system is None:
             operating_system = OperatingSystem.detect()
+        else:
+            operating_system = CorrettoOperatingSystem.transform(operating_system)
+        builder.set_operating_system(operating_system)
 
         if arch is None:
             arch = Architecture.detect()
+        builder.set_architecture(arch)
 
-        image_type = ImageType.JRE.value if jre else ImageType.JDK.value
+        if image_type is None or jre:
+            if jre:
+                image_type = ImageType.JRE
+            elif image_type is None:
+                image_type = ImageType.JDK
+        builder.set_image_type(image_type)
+        resource = builder.build()
 
-        data = self._index_map
-        _operating_system = (
-            "macos"
-            if operating_system == OperatingSystem.MAC
-            else operating_system.value
-        )
-        if _operating_system in data:
-            os_data = data[_operating_system]
-            if arch.value in os_data:
-                arch_data = os_data[arch.value]
-                if image_type in arch_data:
-                    image_type_data = arch_data[image_type]
-                    if version in image_type_data:
-                        version_data = image_type_data[version]
-                        file_format = (
-                            "zip"
-                            if operating_system == OperatingSystem.WINDOWS
-                            else "tar.gz"
-                        )
-                        if file_format in version_data:
-                            return f"{self._base_url}{version_data[file_format]['resource']}"
-                        else:
-                            print(f"DEBUG: Could not find version - {file_format}")
-                    else:
-                        print(f"DEBUG: Could not find version - {version}")
-                else:
-                    print(f"DEBUG: Could not find image_type - {image_type}")
-            else:
-                print(f"DEBUG: Could not find arch - {arch.value}")
-        else:
-            print(f"DEBUG: Could not find operating_system - {operating_system.value}")
+        return f"{self._base_url}{resource}"

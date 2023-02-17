@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Any, Optional, SupportsIndex
+from typing import Any, Optional
 
 
 class BaseEnum(str, Enum):
@@ -38,7 +38,11 @@ Implementation = JvmImpl
 
 
 class Vendor(BaseEnum):
-    ECLIPSE = "eclipse"
+    DEFAULT = ""
+
+
+class Environment(BaseEnum):
+    DEFAULT = ""
 
 
 class Architecture(BaseDetectableEnum):
@@ -67,34 +71,14 @@ class Architecture(BaseDetectableEnum):
 
     X64 = "x64"
     X86 = "x86"
-    X32 = "x32"
     PPC64 = "ppc64"
-    PPC64LE = "ppc64le"
-    S390X = "s390x"
     AARCH64 = "aarch64"
     ARM = "arm"
-    SPARCV9 = "sparcv9"
-    RISCV64 = "riscv64"
-
-
-class CLib(BaseEnum):
-    MUSL = "musl"
-    GLIBC = "glibc"
-
-
-class HeapSize(BaseEnum):
-    NORMAL = "normal"
-    LARGE = "large"
 
 
 class ImageType(BaseEnum):
     JDK = "jdk"
     JRE = "jre"
-    TEST_IMAGE = "testimage"
-    DEBUG_IMAGE = "debugimage"
-    STATIC_LIBS = "staticlibs"
-    SOURCES = "sources"
-    SBOM = "sbom"
 
 
 class OperatingSystem(BaseDetectableEnum):
@@ -121,16 +105,3 @@ class OperatingSystem(BaseDetectableEnum):
     SOLARIS = "solaris"
     AIX = "aix"
     ALPINE_LINUX = "alpine-linux"
-
-
-class ReleaseType(BaseEnum):
-    GA = "ga"
-    EA = "ea"
-
-
-class Project(BaseEnum):
-    JDK = "jdk"
-    VALHALLA = "valhalla"
-    METROPOLIS = "metropolis"
-    JFR = "jfr"
-    SHENANDOAH = "shenandoah"

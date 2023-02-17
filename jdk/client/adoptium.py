@@ -1,34 +1,94 @@
 from typing import Optional
 from jdk.enums import (
     BaseEnum,
+    BaseDetectableEnum,
     OperatingSystem,
     Architecture,
     JvmImpl,
     ImageType,
-    HeapSize,
-    ReleaseType,
     Vendor,
-    CLib,
-    Project,
+    Environment,
 )
+from jdk.extension import extends
 from .client import Client, vendor_client
 
 
 AdoptiumJvmImpl = JvmImpl
-AdoptiumVendor = Vendor
 
 
+@extends(Architecture)
+class AdoptiumArchitecture(BaseDetectableEnum):
+    @classmethod
+    def detect(cls) -> Optional["AdoptiumArchitecture"]:
+        return Architecture.detect()
+
+    @classmethod
+    def transform(cls, other: Architecture) -> Optional["AdoptiumArchitecture"]:
+        return AdoptiumArchitecture(other.value)
+
+    X32 = "x32"
+    PPC64LE = "ppc64le"
+    S390X = "s390x"
+    SPARCV9 = "sparcv9"
+    RISCV64 = "riscv64"
+
+
+class CLib(BaseEnum):
+    MUSL = "musl"
+    GLIBC = "glibc"
+
+
+class HeapSize(BaseEnum):
+    NORMAL = "normal"
+    LARGE = "large"
+
+
+class ReleaseType(BaseEnum):
+    GA = "ga"
+    EA = "ea"
+
+
+class Project(BaseEnum):
+    JDK = "jdk"
+    VALHALLA = "valhalla"
+    METROPOLIS = "metropolis"
+    JFR = "jfr"
+    SHENANDOAH = "shenandoah"
+
+
+@extends(ImageType)
+class AdoptiumImageType(BaseEnum):
+    TEST_IMAGE = "testimage"
+    DEBUG_IMAGE = "debugimage"
+    STATIC_LIBS = "staticlibs"
+    SOURCES = "sources"
+    SBOM = "sbom"
+
+
+@extends(Vendor)
+class AdoptiumVendor(BaseEnum):
+    ADOPTIUM = "Adoptium"
+    TEMURIN = "Temurin"
+    ADOPTOPENJDK = "AdoptOpenJDK"
+    ECLIPSE = "eclipse"
+
+
+@extends(Environment)
 class AdoptiumEnvironment(BaseEnum):
     PRODUCTION = "https://api.adoptium.net"
     STAGE = "https://staging-api.adoptium.net"
 
 
-@vendor_client(["Adoptium", Vendor.ECLIPSE.value, "Temurin", "AdoptOpenJDK"])
+@vendor_client(AdoptiumVendor)
 class AdoptiumClient(Client):
     def __init__(
-        self, environment: AdoptiumEnvironment = AdoptiumEnvironment.PRODUCTION
+        self, environment: Environment = AdoptiumEnvironment.PRODUCTION
     ) -> None:
-        self._base_url = environment.value
+        if environment == Environment.DEFAULT:
+            base_url = AdoptiumEnvironment.PRODUCTION.value
+        else:
+            base_url = environment.value
+        super().__init__(base_url)
 
     def get_download_url(
         self,
@@ -45,7 +105,7 @@ class AdoptiumClient(Client):
         c_lib: Optional[CLib] = None,
         project: Optional[Project] = None,
     ) -> str:
-        version = self.normalize_version(version)
+        version = Client.normalize_version(version)
 
         if operating_system is None:
             operating_system = OperatingSystem.detect()
@@ -57,9 +117,10 @@ class AdoptiumClient(Client):
             image_type = ImageType.JRE
 
         if c_lib:
-            image_type = ImageType.STATIC_LIBS
+            image_type = AdoptiumImageType.STATIC_LIBS
 
-        download_url = f"{self._base_url}/v3/binary/latest/{version}/{release_type}/{operating_system}/{arch}/{image_type}/{impl}/{heap_size}/{vendor}"
+        base_url = self._base_url
+        download_url = f"{base_url}/v3/binary/latest/{version}/{release_type}/{operating_system}/{arch}/{image_type}/{impl}/{heap_size}/{vendor}"
         if c_lib:
             download_url = f"{download_url}?c_lib={c_lib}"
 

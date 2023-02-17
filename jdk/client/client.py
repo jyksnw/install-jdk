@@ -2,7 +2,6 @@ import cgi
 import shutil
 import tempfile
 from os import path
-from abc import ABC, abstractmethod
 from typing import List, Optional, Callable, Union
 from urllib import request
 from urllib.parse import urlsplit
@@ -18,14 +17,16 @@ class ClientException(Exception):
     pass
 
 
-class Client(ABC):
+class Client:
     @staticmethod
     def normalize_version(version: str) -> str:
         if version == "1.8":
             return "8"
         return version
 
-    @abstractmethod
+    def __init__(self, base_url) -> None:
+        self._base_url = base_url
+
     def get_download_url(
         self,
         version: str,
@@ -34,7 +35,7 @@ class Client(ABC):
         impl: JvmImpl = Implementation.HOTSPOT,
         jre: bool = False,
     ) -> str:
-        pass
+        raise NotImplementedError("get_download_url")
 
     def download(self, download_url: str) -> Optional[str]:
         req = request.Request(download_url, headers={"User-Agent": "Mozilla/5.0"})
@@ -63,17 +64,22 @@ def vendor_client(
 ) -> Callable[[Client], Client]:
     def wrapper(client: Client) -> Client:
         if isinstance(vendor, Iterable):
-            unique_vendors = set(vendor)
+            unique_vendors = vendor
             for unique_vendor in unique_vendors:
-                _vendor_clients[str(unique_vendor)] = client
+                vendor_name = str(unique_vendor).lower()
+                if vendor_name not in _vendor_clients:
+                    _vendor_clients[vendor_name] = client
         else:
-            _vendor_clients[str(vendor)] = client
+            _vendor_clients[str(vendor).lower()] = client
         return client
 
     return wrapper
 
 
-def load_client(vendor: Union[Vendor, str]) -> Optional[Client]:
-    vendor_name = str(vendor)
+def load_client(vendor: Optional[Union[Vendor, str]] = "Adoptium") -> Optional[Client]:
+    if vendor is None or str(vendor) == "":
+        vendor = "Adoptium"
+
+    vendor_name = str(vendor).lower()
     if vendor_name in _vendor_clients:
         return _vendor_clients[vendor_name]
