@@ -20,9 +20,6 @@ import jdk
 jdk.install('11')
 # Platform dependent install of Java JDK 11 into $HOME/.jdk/<VERSION>
 
-jdk.install('11', impl=jdk.Implementation.OPENJ9)
-# Platform dependent install of Java JDK 11 with OpenJ9 into $HOME/.jdk/<VERSION>
-
 jdk.install('11', jre=True)
 # Platform dependent install of Java JRE 11 into $HOME/.jre/<VERSION>
 
