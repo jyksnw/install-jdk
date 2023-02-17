@@ -42,6 +42,9 @@ jdk.uninstall('11')
 
 jdk.uninstall('11', jre=True)
 # Removes the Java 11 JRE if installed
+
+jdk.install('17', vendor='Corretto')
+# Installs a Corretto build of Java 17 JDK. Defualt vendor is Adoptium
 ```
 
 ## Development
