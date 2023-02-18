@@ -15,6 +15,8 @@ _JRE_DIR = path.join(_USER_DIR, ".jre")
 _JDK_DIR = path.join(_USER_DIR, ".jdk")
 
 
+
+
 OS = OperatingSystem.detect()
 ARCH = Architecture.detect()
 
