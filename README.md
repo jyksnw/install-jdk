@@ -1,6 +1,6 @@
 # install-jdk
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/309b149bb42643bbb08e01e6d0c553f9)](https://www.codacy.com/gh/jyksnw/install-jdk/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jyksnw/install-jdk&amp;utm_campaign=Badge_Grade) [![PyPI Downloads Badge](https://img.shields.io/pypi/dm/install-jdk.svg)](https://pypi.org/project/install-jdk/) [![PyPI Version Badge](https://img.shields.io/pypi/v/install-jdk.svg)](https://pypi.org/project/install-jdk/)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/309b149bb42643bbb08e01e6d0c553f9)](https://www.codacy.com/gh/jyksnw/install-jdk/dashboard?utm_source=github.com&utm_medium=referral&utm_content=jyksnw/install-jdk&utm_campaign=Badge_Grade) [![PyPI Downloads Badge](https://img.shields.io/pypi/dm/install-jdk.svg)](https://pypi.org/project/install-jdk/) [![PyPI Version Badge](https://img.shields.io/pypi/v/install-jdk.svg)](https://pypi.org/project/install-jdk/)
 
 The `install-jdk` library is a Python package that simplifies the process of installing JDK (Java Development Kit) on Windows, macOS, Linux and other supported operating systems. The library provides a simple interface for downloading and installing the appropriate version of an OpenJDK build. `install-jdk` is a useful tool for users, developers, and system administrators who need to set up Java development environment or runtime. It simplifies the process of downloading and installing the appropriate JDK version, saving time and effort.
 
@@ -19,18 +19,19 @@ The `install-jdk` library is a Python package that simplifies the process of ins
 
 install-jdk will do its best to detect the operating system and architecture that it is running on. Currently is able to detect:
 
-* Operating Systems
-  * Windows
-  * Linux
-  * MacOS
-  * AIX
+- Operating Systems
 
-* Architecture
-  * arm
-  * aarch64
-  * ppc64
-  * x64
-  * x86
+  - Windows
+  - Linux
+  - MacOS
+  - AIX
+
+- Architecture
+  - arm
+  - aarch64
+  - ppc64
+  - x64
+  - x86
 
 ## Installation
 
@@ -50,13 +51,13 @@ import jdk
 
 The library provides an `install` function, which takes the following parameters:
 
-* `version` - The major version of the Java OpenJDK build to install (e.g. 8, 11, 17, etc.).
-* `operating_system` - The target operating system. If not specified, will use the user's detected operating system if possible.
-* `arch` - The target architecure. If not specified, will use the user's detected architecture if possible.
-* `impl` - The Java implementation to use. Currently only supports `HOTSPOT` and dependent on the OpenJDK Build Vendor.
-* `jre` - A boolean value indicating that the Java Runtime Environment should be installed. Defaults to false, which will install the Java Development Kit.
-* `path` - The location to install the downloaded OpenJDK build. If not specified, will install into `$HOME/.jdk/<VERSION>` for the Java Development Kit and `$HOME/.jre/<VERSION>` for the Java Runtime Environment.
-* `vendor` - The vendor to download the OpenJDK build from. If not specified, defaults to [Adoptium](https://adoptium.com). This is a named argument so must be provided like `vendor='Corretto'`. To find a list of available supported OpenJDK vendors available see the list of [Supported OpenJDK Build Vendors](#supported-openjdk-build-vendors)
+- `version` - The major version of the Java OpenJDK build to install (e.g. 8, 11, 17, etc.).
+- `operating_system` - The target operating system. If not specified, will use the user's detected operating system if possible.
+- `arch` - The target architecure. If not specified, will use the user's detected architecture if possible.
+- `impl` - The Java implementation to use. Currently only supports `HOTSPOT` and dependent on the OpenJDK Build Vendor.
+- `jre` - A boolean value indicating that the Java Runtime Environment should be installed. Defaults to false, which will install the Java Development Kit.
+- `path` - The location to install the downloaded OpenJDK build. If not specified, will install into `$HOME/.jdk/<VERSION>` for the Java Development Kit and `$HOME/.jre/<VERSION>` for the Java Runtime Environment.
+- `vendor` - The vendor to download the OpenJDK build from. If not specified, defaults to [Adoptium](https://adoptium.com). This is a named argument so must be provided like `vendor='Corretto'`. To find a list of available supported OpenJDK vendors available see the list of [Supported OpenJDK Build Vendors](#supported-openjdk-build-vendors)
 
 Here are some example code snippet:
 
@@ -76,12 +77,12 @@ jdk.install('17', vendor='Corretto', path='/usr/local/jdk')
 
 The library also has a `get_download_url` function that returns the URL for the given version, it takes the following parameters:
 
-* `version` - The major version of the Java OpenJDK build to install (e.g. 8, 11, 17, etc.).
-* `operating_system` - The target operating system. If not specified, will use the user's detected operating system if possible.
-* `arch` - The target architecure. If not specified, will use the user's detected architecture if possible.
-* `impl` - The Java implementation to use. Currently only supports `HOTSPOT` and dependent on the OpenJDK Build Vendor.
-* `jre` - A boolean value indicating that the Java Runtime Environment should be installed. Defaults to false, which will install the Java Development Kit.
-* `vendor` - The vendor to download the OpenJDK build from. If not specified, defaults to [Adoptium](https://adoptium.com). This is a named argument so must be provided like `vendor='Corretto'`. To find a list of available supported OpenJDK vendors available see the list of [Supported OpenJDK Build Vendors](#supported-openjdk-build-vendors)
+- `version` - The major version of the Java OpenJDK build to install (e.g. 8, 11, 17, etc.).
+- `operating_system` - The target operating system. If not specified, will use the user's detected operating system if possible.
+- `arch` - The target architecure. If not specified, will use the user's detected architecture if possible.
+- `impl` - The Java implementation to use. Currently only supports `HOTSPOT` and dependent on the OpenJDK Build Vendor.
+- `jre` - A boolean value indicating that the Java Runtime Environment should be installed. Defaults to false, which will install the Java Development Kit.
+- `vendor` - The vendor to download the OpenJDK build from. If not specified, defaults to [Adoptium](https://adoptium.com). This is a named argument so must be provided like `vendor='Corretto'`. To find a list of available supported OpenJDK vendors available see the list of [Supported OpenJDK Build Vendors](#supported-openjdk-build-vendors)
 
 Here are some example code snippets:
 
@@ -99,13 +100,13 @@ print(download_url)
 
 The library has a `download` function that will download the requested version and returns back the path to where it was downloaded. This function does not currently support overriding the default download path which is the operating systems specific TMP directory. It takes the following parameters.
 
-* `download_url` - The URL to the file to be downloaded. Defaults to None.
-  * * `version` - Required when `download_version` is None and must be provided as a named parameter. The major version of the Java OpenJDK build to install (e.g. 8, 11, 17, etc.).
-* `operating_system` - Must be provided as a named parameter. The target operating system. If not specified, will use the user's detected operating system if possible.
-* `arch` - Must be provided as a named parameter. The target architecure. If not specified, will use the user's detected architecture if possible.
-* `impl` - Must be provided as a named parameter. The Java implementation to use. Currently only supports `HOTSPOT` and dependent on the OpenJDK Build Vendor.
-* `jre` - Must be provided as a named parameter. A boolean value indicating that the Java Runtime Environment should be installed. Defaults to false, which will install the Java Development Kit.
-* `vendor` - Must be provided as a named parameter. The vendor to download the OpenJDK build from. If not specified, defaults to [Adoptium](https://adoptium.com). This is a named argument so must be provided like `vendor='Corretto'`. To find a list of available supported OpenJDK vendors available see the list of [Supported OpenJDK Build Vendors](#supported-openjdk-build-vendors)
+- `download_url` - The URL to the file to be downloaded. Defaults to None.
+  - - `version` - Required when `download_version` is None and must be provided as a named parameter. The major version of the Java OpenJDK build to install (e.g. 8, 11, 17, etc.).
+- `operating_system` - Must be provided as a named parameter. The target operating system. If not specified, will use the user's detected operating system if possible.
+- `arch` - Must be provided as a named parameter. The target architecure. If not specified, will use the user's detected architecture if possible.
+- `impl` - Must be provided as a named parameter. The Java implementation to use. Currently only supports `HOTSPOT` and dependent on the OpenJDK Build Vendor.
+- `jre` - Must be provided as a named parameter. A boolean value indicating that the Java Runtime Environment should be installed. Defaults to false, which will install the Java Development Kit.
+- `vendor` - Must be provided as a named parameter. The vendor to download the OpenJDK build from. If not specified, defaults to [Adoptium](https://adoptium.com). This is a named argument so must be provided like `vendor='Corretto'`. To find a list of available supported OpenJDK vendors available see the list of [Supported OpenJDK Build Vendors](#supported-openjdk-build-vendors)
 
 Here are some example code snippets:
 
@@ -123,8 +124,8 @@ print(download_file)
 
 The library has an `uninstall` function that will remove provided version if present. This function does not currently work if the path parameter was overriden during the install. It looks for JDK installs in `$HOME/.jdk/<VERSION>` and JRE installs in `$HOME/.jre/<VERSION>`. It takes the following parameters.
 
-* `version` - The major version of the Java OpenJDK build to install (e.g. 8, 11, 17, etc.).
-* `jre` - A boolean value indicating that the Java Runtime Environment should be installed. Defaults to false, which will install the Java Development Kit.
+- `version` - The major version of the Java OpenJDK build to install (e.g. 8, 11, 17, etc.).
+- `jre` - A boolean value indicating that the Java Runtime Environment should be installed. Defaults to false, which will install the Java Development Kit.
 
 Here are some example code snippets:
 
@@ -147,13 +148,13 @@ print(jdk.ARCH)
 
 The install-jdk library uses OpenJDK builds, and is created and maintained by [jyksnw](https://github.com/jyksnw).
 
-*This was originally a port of the GitHub Action [`installjdk`](https://github.com/AdoptOpenJDK/install-jdk) but has morphed into something much more.*
+_This was originally a port of the GitHub Action [`installjdk`](https://github.com/AdoptOpenJDK/install-jdk) but has morphed into something much more._
 
 ### Vendor Credits
 
-* [Adoptium](https://adoptium.net/)
-* [Corretto](https://aws.amazon.com/corretto/)
-  * [Corretto Downloads](https://github.com/corretto/corretto-downloads)
+- [Adoptium](https://adoptium.net/)
+- [Corretto](https://aws.amazon.com/corretto/)
+  - [Corretto Downloads](https://github.com/corretto/corretto-downloads)
 
 ## License
 
