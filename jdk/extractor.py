@@ -1,8 +1,14 @@
-from typing import Optional, Union, Iterable
-from os import path, listdir
-from tarfile import open as tarfile_open, TarFile
-from lzma import open as lzma_open, LZMAFile
-from zipfile import ZipFile, ZipInfo
+from lzma import LZMAFile
+from lzma import open as lzma_open
+from os import listdir
+from os import path
+from tarfile import TarFile
+from tarfile import open as tarfile_open
+from typing import Iterable
+from typing import Optional
+from typing import Union
+from zipfile import ZipFile
+from zipfile import ZipInfo
 
 
 _TAR = ".tar"
@@ -11,7 +17,7 @@ _ZIP = ".zip"
 _SEVEN_ZIP = ".7z"
 
 
-class ExtractorException(Exception):
+class ExtractorError(Exception):
     pass
 
 
@@ -36,7 +42,7 @@ def _safe_extract(
         for member in tar.getmembers():
             member_path = path.join(path, member.name)
             if not _is_within_directory(path, member_path):
-                raise ExtractorException("Attempted Path Traversal in Archive File")
+                raise ExtractorError("Attempted Path Traversal in Archive File")
         tar.extractall(path, members, numeric_owner=numeric_owner)
 
 

@@ -1,19 +1,17 @@
 from typing import Optional
-from jdk.enums import (
-    BaseEnum,
-    BaseDetectableEnum,
-    OperatingSystem,
-    Architecture,
-    JvmImpl,
-    ImageType,
-    Vendor,
-    Environment,
-)
+
+from jdk.enums import Architecture
+from jdk.enums import BaseDetectableEnum
+from jdk.enums import BaseEnum
+from jdk.enums import Environment
+from jdk.enums import ImageType
+from jdk.enums import JvmImpl
+from jdk.enums import OperatingSystem
+from jdk.enums import Vendor
 from jdk.extension import extends
-from .client import Client, vendor_client
 
-
-AdoptiumJvmImpl = JvmImpl
+from .client import Client
+from .client import vendor_client
 
 
 @extends(Architecture)
@@ -95,7 +93,7 @@ class AdoptiumClient(Client):
         version: str,
         operating_system: Optional[OperatingSystem] = None,
         arch: Optional[Architecture] = None,
-        impl: JvmImpl = AdoptiumJvmImpl.HOTSPOT,
+        impl: JvmImpl = JvmImpl.HOTSPOT,
         jre: bool = False,
         *,
         heap_size: HeapSize = HeapSize.NORMAL,
@@ -120,7 +118,7 @@ class AdoptiumClient(Client):
             image_type = AdoptiumImageType.STATIC_LIBS
 
         base_url = self._base_url
-        download_url = f"{base_url}/v3/binary/latest/{version}/{release_type}/{operating_system}/{arch}/{image_type}/{impl}/{heap_size}/{vendor}"
+        download_url = f"{base_url}/v3/binary/latest/{version}/{release_type}/{operating_system}/{arch}/{image_type}/{impl}/{heap_size}/{vendor}"  # noqa: B950
         if c_lib:
             download_url = f"{download_url}?c_lib={c_lib}"
 

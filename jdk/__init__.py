@@ -1,19 +1,21 @@
 import os
 import shutil
+from collections import namedtuple
+from os import path
+from subprocess import run  # noqa: S404 Security implication noted and mitigated
 from typing import Union
 
-from collections import namedtuple
-from subprocess import run
-from os import path
-
 from jdk import extractor
-from jdk.enums import Implementation, OperatingSystem, Architecture, Vendor
 from jdk.client import load_client
+from jdk.enums import Architecture
+from jdk.enums import Implementation
+from jdk.enums import OperatingSystem
+from jdk.enums import Vendor
+
 
 _USER_DIR = path.expanduser("~")
 _JRE_DIR = path.join(_USER_DIR, ".jre")
 _JDK_DIR = path.join(_USER_DIR, ".jdk")
-
 
 OS = OperatingSystem.detect()
 ARCH = Architecture.detect()
@@ -40,12 +42,14 @@ def _unpack_jars(fs_path: str, java_bin_path: str) -> None:
                 current_path = path.join(fs_path, f)
                 _unpack_jars(current_path, java_bin_path)
         else:
-            file_name, file_ext = path.splitext(fs_path)
+            _, file_ext = path.splitext(fs_path)
             if file_ext.endswith("pack"):
                 p = _path_parse(fs_path)
                 name = path.join(p.dir, p.name)
                 tool_path = path.join(java_bin_path, _UNPACK200)
-                run([tool_path, _UNPACK200_ARGS, f"{name}.pack", f"{name}.jar"])
+                run(  # noqa: S603 Known arguments being passed into run
+                    [tool_path, _UNPACK200_ARGS, f"{name}.pack", f"{name}.jar"]
+                )
 
 
 def _decompress_archive(
@@ -57,7 +61,9 @@ def _decompress_archive(
     jdk_file = path.normpath(repo_root)
 
     if path.isfile(jdk_file):
-        jdk_directory = extractor.extract_files(jdk_file, file_ending, destination_folder)
+        jdk_directory = extractor.extract_files(
+            jdk_file, file_ending, destination_folder
+        )
         jdk_bin = path.join(jdk_directory, "bin")
         _unpack_jars(jdk_directory, jdk_bin)
 
@@ -74,7 +80,7 @@ def install(
     jre: bool = False,
     path: str = None,
     *,
-    vendor: Union[Vendor, str] = "Adoptium"
+    vendor: Union[Vendor, str] = "Adoptium",
 ) -> str:
     jdk_client = load_client(vendor)()
 

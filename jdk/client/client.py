@@ -1,19 +1,26 @@
 import cgi
 import shutil
 import tempfile
+from collections.abc import Iterable
 from os import path
-from typing import List, Optional, Callable, Union
+from typing import Callable
+from typing import List
+from typing import Optional
+from typing import Union
 from urllib import request
 from urllib.parse import urlsplit
-from collections.abc import Iterable
 
-from jdk.enums import Architecture, OperatingSystem, JvmImpl, Implementation, Vendor
+from jdk.enums import Architecture
+from jdk.enums import Implementation
+from jdk.enums import JvmImpl
+from jdk.enums import OperatingSystem
+from jdk.enums import Vendor
 
 
 _vendor_clients = dict()
 
 
-class ClientException(Exception):
+class ClientError(Exception):
     pass
 
 
@@ -38,10 +45,13 @@ class Client:
         raise NotImplementedError("get_download_url")
 
     def download(self, download_url: str) -> Optional[str]:
-        req = request.Request(download_url, headers={"User-Agent": "Mozilla/5.0"})
+        if download_url.lower().startswith("http"):
+            req = request.Request(download_url, headers={"User-Agent": "Mozilla/5.0"})
+        else:
+            raise ClientError("Invalid Download URL")
 
         jdk_file = None
-        with request.urlopen(req) as open_request:
+        with request.urlopen(req) as open_request:  # noqa: S310
             info = open_request.info()
             if "Content-Disposition" in info:
                 content_disposition = info["Content-Disposition"]

@@ -1,7 +1,10 @@
-from typing import Callable, Optional, Union
-from functools import wraps
 from enum import EnumMeta
-from jdk.enums import BaseEnum, BaseDetectableEnum, Environment
+from functools import wraps
+from typing import Callable
+from typing import Union
+
+from jdk.enums import BaseDetectableEnum
+from jdk.enums import BaseEnum
 
 
 def extend_enum(parent: BaseEnum) -> Callable[[BaseEnum], BaseEnum]:

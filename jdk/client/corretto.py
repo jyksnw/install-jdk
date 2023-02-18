@@ -1,20 +1,24 @@
 import json
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 from urllib.request import urlopen
-from jdk.enums import (
-    BaseEnum,
-    BaseDetectableEnum,
-    OperatingSystem,
-    Architecture,
-    JvmImpl,
-    ImageType,
-    Vendor,
-    Environment,
-)
-from jdk.extension import extends
-from .client import Client, ClientException, vendor_client
 
-_INDEX_MAP_URL = "https://raw.githubusercontent.com/corretto/corretto-downloads/main/latest_links/indexmap_with_checksum.json"
+from jdk.enums import Architecture
+from jdk.enums import BaseDetectableEnum
+from jdk.enums import BaseEnum
+from jdk.enums import Environment
+from jdk.enums import ImageType
+from jdk.enums import JvmImpl
+from jdk.enums import OperatingSystem
+from jdk.enums import Vendor
+from jdk.extension import extends
+
+from .client import Client
+from .client import ClientError
+from .client import vendor_client
+
+
+_INDEX_MAP_URL = "https://raw.githubusercontent.com/corretto/corretto-downloads/main/latest_links/indexmap_with_checksum.json"  # noqa: B950
 
 
 @extends(Vendor)
@@ -112,10 +116,12 @@ class CorrettoClient(Client):
         try:
             if cls._index_map is None:
                 cls._index_map = json.loads(
-                    urlopen(_INDEX_MAP_URL).read().decode("utf-8")
+                    urlopen(_INDEX_MAP_URL)  # noqa: S310 Known URL
+                    .read()
+                    .decode("utf-8")
                 )
         except Exception as e:
-            raise ClientException(e)
+            raise ClientError(e) from e
         else:
             return cls._index_map
 
@@ -127,7 +133,7 @@ class CorrettoClient(Client):
         else:
             base_url = environment.value
         super().__init__(base_url)
-        
+
         self._index_map = CorrettoClient.load_index_map()
 
     def get_download_url(
