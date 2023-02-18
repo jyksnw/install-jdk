@@ -1,13 +1,32 @@
 # install-jdk
 
-[WORK IN PROGRESS]
-This client is currently being revamped for a v1.0 release. With added support for additional OpenJDK Build clients. Currently the updates support Adoptium and Corretto. The underlying library that drives this client is also being revamped to enable additional functionality down the road. The initial pre-release of v0.x methods and exposed API calls will be maintained for backwards compatibility.
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/309b149bb42643bbb08e01e6d0c553f9)](https://www.codacy.com/gh/jyksnw/install-jdk/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jyksnw/install-jdk&amp;utm_campaign=Badge_Grade)
 
-A simple python utility that can be used to download and install a given Java JDK or JRE. Utilizes the [AdoptOpenJDK API](https://api.adoptopenjdk.net/swagger-ui/#/Binary).
+This was originally a port of from the GitHub Action [`installjdk`](https://github.com/AdoptOpenJDK/install-jdk)
 
-This is a port of from the GitHub Action [`installjdk`](https://github.com/AdoptOpenJDK/install-jdk)
+install-jdk aims to give you as many options as possible to install an OpenJDK Java version across a wide array of operating systems and architectures. Please see each vendors OpenJDK documentation to see what operating systems and architectures they support.
 
-Currently supports 32-bit and 64-bit versions of Windows, Linux, and macOS.
+| OpenJDK Build | Status | Vendor Tags | Documentation |
+| ------------- | ------ | ------- | ---- |
+| Adoptium (default)          | Implemented     | Adoptium, Temuring, AdoptOpenJDK, eclipse | ...coming soon |
+| Corretto            | Implemented     | Corretto, Amazon, AWS | ...coming soon |
+| Microsoft            | Planning     | Microsoft | ...coming soon |
+| Azul                  | Planning  | Azul, Zulu | ...coming soon |
+
+install-jdk will do its best to detect the operating system and architecture that it is running on. Currently is able to detect:
+
+* Operating Systems
+  * Windows
+  * Linux
+  * MacOS
+  * AIX
+
+* Architecture
+  * arm
+  * aarch64
+  * ppc64
+  * x64
+  * x86
 
 ## Install
 
@@ -49,13 +68,4 @@ jdk.install('17', vendor='Corretto')
 
 ## Development
 
-Targets Python3.6 and newer.
-
-```bash
-git clone https://github.com/jyksnw/install-jdk
-cd install-jdk
-python3 -m venv .env
-source .env/bin/activate
-
-pip install -r dev_requirements.txt
-```
+See [CONTRIBUTING](CONTRIBUTING.MD)
