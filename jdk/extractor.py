@@ -1,3 +1,4 @@
+from contextlib import closing
 from lzma import LZMAFile
 from lzma import open as lzma_open
 from os import listdir
@@ -68,7 +69,7 @@ def extract_files(file: str, file_ending: str, destination_folder: str) -> str:
             with tarfile_open(file, "r:gz") as tar:
                 _safe_extract(tar, path=destination_folder)
         elif file_ending == _ZIP:
-            with ZipFile(file) as z:
+            with closing(ZipFile(file)) as z:
                 _safe_extract(z, path=destination_folder)
         elif file_ending == _SEVEN_ZIP:
             with lzma_open(file) as z:
