@@ -1,13 +1,20 @@
 import cgi
 import shutil
 import tempfile
+from collections.abc import Iterable
 from os import path
-from typing import List, Optional, Callable, Union
+from typing import Callable
+from typing import List
+from typing import Optional
+from typing import Union
 from urllib import request
 from urllib.parse import urlsplit
-from collections.abc import Iterable
 
-from jdk.enums import Architecture, OperatingSystem, JvmImpl, Implementation, Vendor
+from jdk.enums import Architecture
+from jdk.enums import Implementation
+from jdk.enums import JvmImpl
+from jdk.enums import OperatingSystem
+from jdk.enums import Vendor
 
 
 _vendor_clients = dict()

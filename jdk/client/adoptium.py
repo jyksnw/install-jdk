@@ -1,16 +1,17 @@
 from typing import Optional
-from jdk.enums import (
-    BaseEnum,
-    BaseDetectableEnum,
-    OperatingSystem,
-    Architecture,
-    JvmImpl,
-    ImageType,
-    Vendor,
-    Environment,
-)
+
+from jdk.enums import Architecture
+from jdk.enums import BaseDetectableEnum
+from jdk.enums import BaseEnum
+from jdk.enums import Environment
+from jdk.enums import ImageType
+from jdk.enums import JvmImpl
+from jdk.enums import OperatingSystem
+from jdk.enums import Vendor
 from jdk.extension import extends
-from .client import Client, vendor_client
+
+from .client import Client
+from .client import vendor_client
 
 
 AdoptiumJvmImpl = JvmImpl

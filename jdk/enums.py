@@ -1,5 +1,6 @@
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 
 
 class BaseEnum(str, Enum):

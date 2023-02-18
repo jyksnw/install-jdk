@@ -1,20 +1,21 @@
 import os
 import shutil
+from collections import namedtuple
+from os import path
+from subprocess import run
 from typing import Union
 
-from collections import namedtuple
-from subprocess import run
-from os import path
-
 from jdk import extractor
-from jdk.enums import Implementation, OperatingSystem, Architecture, Vendor
 from jdk.client import load_client
+from jdk.enums import Architecture
+from jdk.enums import Implementation
+from jdk.enums import OperatingSystem
+from jdk.enums import Vendor
+
 
 _USER_DIR = path.expanduser("~")
 _JRE_DIR = path.join(_USER_DIR, ".jre")
 _JDK_DIR = path.join(_USER_DIR, ".jdk")
-
-
 
 
 OS = OperatingSystem.detect()
@@ -59,7 +60,9 @@ def _decompress_archive(
     jdk_file = path.normpath(repo_root)
 
     if path.isfile(jdk_file):
-        jdk_directory = extractor.extract_files(jdk_file, file_ending, destination_folder)
+        jdk_directory = extractor.extract_files(
+            jdk_file, file_ending, destination_folder
+        )
         jdk_bin = path.join(jdk_directory, "bin")
         _unpack_jars(jdk_directory, jdk_bin)
 
@@ -76,7 +79,7 @@ def install(
     jre: bool = False,
     path: str = None,
     *,
-    vendor: Union[Vendor, str] = "Adoptium"
+    vendor: Union[Vendor, str] = "Adoptium",
 ) -> str:
     jdk_client = load_client(vendor)()
 
