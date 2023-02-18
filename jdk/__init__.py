@@ -3,14 +3,15 @@ import shutil
 from collections import namedtuple
 from os import path
 from subprocess import run  # noqa: S404 Security implication noted and mitigated
-from typing import Optional, Union
+from typing import Optional
+from typing import Union
 
 from jdk import extractor
 from jdk.client import load_client
 from jdk.enums import Architecture
+from jdk.enums import JvmImpl
 from jdk.enums import OperatingSystem
 from jdk.enums import Vendor
-from jdk.enums import JvmImpl
 
 
 _USER_DIR = path.expanduser("~")
