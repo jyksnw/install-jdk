@@ -17,7 +17,7 @@ _ZIP = ".zip"
 _SEVEN_ZIP = ".7z"
 
 
-class ExtractorException(Exception):
+class ExtractorError(Exception):
     pass
 
 
@@ -42,7 +42,7 @@ def _safe_extract(
         for member in tar.getmembers():
             member_path = path.join(path, member.name)
             if not _is_within_directory(path, member_path):
-                raise ExtractorException("Attempted Path Traversal in Archive File")
+                raise ExtractorError("Attempted Path Traversal in Archive File")
         tar.extractall(path, members, numeric_owner=numeric_owner)
 
 

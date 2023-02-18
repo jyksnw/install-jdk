@@ -2,7 +2,7 @@ import os
 import shutil
 from collections import namedtuple
 from os import path
-from subprocess import run
+from subprocess import run  # noqa: S404 Security implication noted and mitigated
 from typing import Union
 
 from jdk import extractor
@@ -16,7 +16,6 @@ from jdk.enums import Vendor
 _USER_DIR = path.expanduser("~")
 _JRE_DIR = path.join(_USER_DIR, ".jre")
 _JDK_DIR = path.join(_USER_DIR, ".jdk")
-
 
 OS = OperatingSystem.detect()
 ARCH = Architecture.detect()
@@ -43,12 +42,14 @@ def _unpack_jars(fs_path: str, java_bin_path: str) -> None:
                 current_path = path.join(fs_path, f)
                 _unpack_jars(current_path, java_bin_path)
         else:
-            file_name, file_ext = path.splitext(fs_path)
+            _, file_ext = path.splitext(fs_path)
             if file_ext.endswith("pack"):
                 p = _path_parse(fs_path)
                 name = path.join(p.dir, p.name)
                 tool_path = path.join(java_bin_path, _UNPACK200)
-                run([tool_path, _UNPACK200_ARGS, f"{name}.pack", f"{name}.jar"])
+                run(  # noqa: S603 Known arguments being passed into run
+                    [tool_path, _UNPACK200_ARGS, f"{name}.pack", f"{name}.jar"]
+                )
 
 
 def _decompress_archive(

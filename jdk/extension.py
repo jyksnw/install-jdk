@@ -1,12 +1,10 @@
 from enum import EnumMeta
 from functools import wraps
 from typing import Callable
-from typing import Optional
 from typing import Union
 
 from jdk.enums import BaseDetectableEnum
 from jdk.enums import BaseEnum
-from jdk.enums import Environment
 
 
 def extend_enum(parent: BaseEnum) -> Callable[[BaseEnum], BaseEnum]:

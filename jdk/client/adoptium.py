@@ -14,9 +14,6 @@ from .client import Client
 from .client import vendor_client
 
 
-AdoptiumJvmImpl = JvmImpl
-
-
 @extends(Architecture)
 class AdoptiumArchitecture(BaseDetectableEnum):
     @classmethod
@@ -96,7 +93,7 @@ class AdoptiumClient(Client):
         version: str,
         operating_system: Optional[OperatingSystem] = None,
         arch: Optional[Architecture] = None,
-        impl: JvmImpl = AdoptiumJvmImpl.HOTSPOT,
+        impl: JvmImpl = JvmImpl.HOTSPOT,
         jre: bool = False,
         *,
         heap_size: HeapSize = HeapSize.NORMAL,
@@ -121,7 +118,7 @@ class AdoptiumClient(Client):
             image_type = AdoptiumImageType.STATIC_LIBS
 
         base_url = self._base_url
-        download_url = f"{base_url}/v3/binary/latest/{version}/{release_type}/{operating_system}/{arch}/{image_type}/{impl}/{heap_size}/{vendor}"
+        download_url = f"{base_url}/v3/binary/latest/{version}/{release_type}/{operating_system}/{arch}/{image_type}/{impl}/{heap_size}/{vendor}"  # noqa: B950
         if c_lib:
             download_url = f"{download_url}?c_lib={c_lib}"
 

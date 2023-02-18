@@ -14,11 +14,11 @@ from jdk.enums import Vendor
 from jdk.extension import extends
 
 from .client import Client
-from .client import ClientException
+from .client import ClientError
 from .client import vendor_client
 
 
-_INDEX_MAP_URL = "https://raw.githubusercontent.com/corretto/corretto-downloads/main/latest_links/indexmap_with_checksum.json"
+_INDEX_MAP_URL = "https://raw.githubusercontent.com/corretto/corretto-downloads/main/latest_links/indexmap_with_checksum.json"  # noqa: B950
 
 
 @extends(Vendor)
@@ -116,10 +116,12 @@ class CorrettoClient(Client):
         try:
             if cls._index_map is None:
                 cls._index_map = json.loads(
-                    urlopen(_INDEX_MAP_URL).read().decode("utf-8")
+                    urlopen(_INDEX_MAP_URL)  # noqa: S310 Known URL
+                    .read()
+                    .decode("utf-8")
                 )
         except Exception as e:
-            raise ClientException(e)
+            raise ClientError(e) from e
         else:
             return cls._index_map
 
