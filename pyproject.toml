@@ -1,7 +1,23 @@
 [tool.poetry]
+description = """
+install-jdk is a Python library for easily installing the latest version of OpenJDK for a given major version (8, 11, 17, etc.). Currently, install-jdk supports builds from Adoptium and Corretto. 
+
+With install-jdk, you can ensure that your Python projects have access to the latest version of OpenJDK, without the hassle of manually downloading and installing it. Plus, by using the library, you're supporting the OpenJDK community.
+
+To get started, simply install the library and call its `install` function with the desired major version number. Enjoy faster and more efficient development with the latest OpenJDK builds from Adoptium, Corretto, and others.
+"""
 name = "install-jdk"
 version = "1.0.0"
-description = "Installs OpenJDK Java"
+keywords = [
+    "Java",
+    "OpenJDK",
+    "AdoptOpenJDK",
+    "Adoptium",
+    "Corretto",
+    "Zulu",
+    "Microsoft",
+    "JDK",
+]
 authors = ["Jason Snow <jason.snow@outlook.com>"]
 license = "MIT"
 readme = "README.md"
