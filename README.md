@@ -6,12 +6,12 @@ This was originally a port of from the GitHub Action [`installjdk`](https://gith
 
 install-jdk aims to give you as many options as possible to install an OpenJDK Java version across a wide array of operating systems and architectures. Please see each vendors OpenJDK documentation to see what operating systems and architectures they support.
 
-| OpenJDK Build | Status | Vendor Tags | Documentation |
-| ------------- | ------ | ------- | ---- |
-| Adoptium (default)          | Implemented     | Adoptium, Temuring, AdoptOpenJDK, eclipse | ...coming soon |
-| Corretto            | Implemented     | Corretto, Amazon, AWS | ...coming soon |
-| Microsoft            | Planning     | Microsoft | ...coming soon |
-| Azul                  | Planning  | Azul, Zulu | ...coming soon |
+| OpenJDK Build      | Status      | Vendor Tags                               | Documentation  |
+| ------------------ | ----------- | ----------------------------------------- | -------------- |
+| Adoptium (default) | Implemented | Adoptium, Temuring, AdoptOpenJDK, eclipse | ...coming soon |
+| Corretto           | Implemented | Corretto, Amazon, AWS                     | ...coming soon |
+| Microsoft          | Planning    | Microsoft                                 | ...coming soon |
+| Azul               | Planning    | Azul, Zulu                                | ...coming soon |
 
 install-jdk will do its best to detect the operating system and architecture that it is running on. Currently is able to detect:
 
