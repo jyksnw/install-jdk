@@ -163,3 +163,9 @@ The `install-jdk` library is open-source and is distributed under the [MIT licen
 ## Contribution
 
 See [CONTRIBUTING](CONTRIBUTING.MD)
+
+## Security contact information
+
+To report a security vulnerability, please use the
+[Tidelift security contact](https://tidelift.com/security).
+Tidelift will coordinate the fix and disclosure.
