@@ -10,12 +10,12 @@ The `install-jdk` library is a Python package that simplifies the process of ins
 
 ## Supported OpenJDK Build Vendors
 
-| OpenJDK Build      | Status      | Vendor Tags                               | Vendor Documentation                                        | `install-jdk` Documentation                                                                    | Source Code                                                                                           |
-| ------------------ | ----------- | ----------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Adoptium (default) | Implemented | Adoptium, Temuring, AdoptOpenJDK, eclipse | [Adoptium](https://adoptium.net/docs/)                      | [Adoptium Build Client docs](https://github.com/jyksnw/install-jdk/wiki/Adoptium-Build-Client) | [Adoptium Build Client src](https://github.com/jyksnw/install-jdk/blob/master/jdk/client/adoptium.py) |
-| Corretto           | Implemented | Corretto, Amazon, AWS                     | [Corretto](https://docs.aws.amazon.com/corretto/index.html) | [Corretto Build Client docs](https://github.com/jyksnw/install-jdk/wiki/Corretto-Build-Client) | [Corretto Build Client src](https://github.com/jyksnw/install-jdk/blob/master/jdk/client/corretto.py) |
-| Microsoft          | Planning    | Microsoft                                 | ...coming soon                                              |                                                                                                |                                                                                                       |
-| Azul               | Planning    | Azul, Zulu                                | ...coming soon                                              |                                                                                                |                                                                                                       |
+| OpenJDK Build      | Status      | Vendor Tags                              | Vendor Documentation                                              | `install-jdk` Documentation                                                                    | Source Code                                                                                           |
+| ------------------ | ----------- | ---------------------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Adoptium (default) | Implemented | Adoptium, Temurin, AdoptOpenJDK, eclipse | [Adoptium](https://adoptium.net/docs/)                            | [Adoptium Build Client docs](https://github.com/jyksnw/install-jdk/wiki/Adoptium-Build-Client) | [Adoptium Build Client src](https://github.com/jyksnw/install-jdk/blob/master/jdk/client/adoptium.py) |
+| Corretto           | Implemented | Corretto, Amazon, AWS                    | [Corretto](https://docs.aws.amazon.com/corretto/index.html)       | [Corretto Build Client docs](https://github.com/jyksnw/install-jdk/wiki/Corretto-Build-Client) | [Corretto Build Client src](https://github.com/jyksnw/install-jdk/blob/master/jdk/client/corretto.py) |
+| Microsoft          | Planning    | Microsoft                                | ...coming soon                                                    |                                                                                                |                                                                                                       |
+| Azul               | Implemented | Azul, Zulu                               | [Azul Zulu](https://www.azul.com/downloads-new/?package=jdk#zulu) | ...coming soon                                                                                 | [Zulu Build Client src](https://github.com/jyksnw/install-jdk/blob/master/jdk/client/zulu.py)         |
 
 install-jdk will do its best to detect the operating system and architecture that it is running on. Currently is able to detect:
 
@@ -163,3 +163,9 @@ The `install-jdk` library is open-source and is distributed under the [MIT licen
 ## Contribution
 
 See [CONTRIBUTING](CONTRIBUTING.MD)
+
+## Security contact information
+
+To report a security vulnerability, please use the
+[Tidelift security contact](https://tidelift.com/security).
+Tidelift will coordinate the fix and disclosure.
