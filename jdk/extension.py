@@ -1,10 +1,10 @@
 import warnings
 from enum import EnumMeta
 from functools import wraps
-from typing import Callable
-from typing import Union
 from inspect import isclass
 from inspect import isfunction
+from typing import Callable
+from typing import Union
 
 from jdk.enums import BaseDetectableEnum
 from jdk.enums import BaseEnum
@@ -64,7 +64,7 @@ def extends(
 
 
 def deprecated(reason):
-    if isinstance(reason, (str, type(b""), type(""))):
+    if isinstance(reason, (str, bytes, str)):
 
         def decorator(func):
             msg = "Call to deprecated function {name} ({reason})"
