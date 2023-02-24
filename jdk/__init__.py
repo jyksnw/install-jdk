@@ -12,6 +12,7 @@ from jdk.enums import Architecture
 from jdk.enums import JvmImpl
 from jdk.enums import OperatingSystem
 from jdk.enums import Vendor
+from jdk.extension import deprecated
 
 
 _USER_DIR = path.expanduser("~")
@@ -107,6 +108,9 @@ def install(
             os.remove(jdk_file)
 
 
+@deprecated(
+    "Manually delete from the .jre or .jdk directory. Will be removed in a future version"
+)
 def uninstall(version: str, jre: bool = False):
     version = f"jdk{version}"
     if jre:
