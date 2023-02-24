@@ -1,5 +1,7 @@
 import json
-from typing import List, Optional, Union
+from typing import List
+from typing import Optional
+from typing import Union
 from urllib.parse import urlencode
 from urllib.request import urlopen
 
@@ -13,7 +15,8 @@ from jdk.enums import OperatingSystem
 from jdk.enums import Vendor
 from jdk.extension import extends
 
-from .client import Client, ClientError
+from .client import Client
+from .client import ClientError
 from .client import vendor_client
 
 
@@ -176,11 +179,7 @@ class ZuluClient(Client):
         params["os"] = operating_system.value
         params["arch"] = arch.value
         params["hw_bitness"] = hw_bitness
-        if (
-            arch == ZuluArchitecture.ARM
-            and hw_bitness == ZuluBitness.BITS_32
-            and abi
-        ):
+        if arch == ZuluArchitecture.ARM and hw_bitness == ZuluBitness.BITS_32 and abi:
             params["abi"] = abi.value
         params["ext"] = str(ZuluExtension.detect())
         params["bundle_type"] = image_type.value
