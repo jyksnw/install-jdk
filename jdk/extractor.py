@@ -58,7 +58,9 @@ def get_compressed_file_ext(file: str) -> str:
         return _SEVEN_ZIP
 
 
-def extract_files(file: str, file_ending: str, destination_folder: str) -> str:
+def extract_files(
+    file: str, file_ending: str, destination_folder: str
+) -> Optional[str]:
     if path.isfile(file):
         start_listing = set(listdir(destination_folder))
 
@@ -76,6 +78,12 @@ def extract_files(file: str, file_ending: str, destination_folder: str) -> str:
                 _safe_extract(z, path=destination_folder)
 
         end_listing = set(listdir(destination_folder))
-        jdk_directory = next(iter(end_listing.difference(start_listing)))
+
+        if len(end_listing) > len(start_listing):
+            jdk_directory = next(iter(end_listing.difference(start_listing)))
+        elif len(end_listing) == 1:
+            jdk_directory = end_listing.pop()
+        else:
+            return None
 
         return path.join(destination_folder, jdk_directory)
