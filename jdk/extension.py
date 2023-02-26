@@ -1,5 +1,8 @@
+import warnings
 from enum import EnumMeta
 from functools import wraps
+from inspect import isclass
+from inspect import isfunction
 from typing import Callable
 from typing import Union
 
@@ -58,3 +61,47 @@ def extends(
         raise NotImplementedError(f"{extended.__class__.__name__} can not be extended")
 
     return wrapper
+
+
+def deprecated(reason):
+    if isinstance(reason, (str, bytes, str)):
+
+        def decorator(func):
+            msg = "Call to deprecated function {name} ({reason})"
+            if isclass(func):
+                msg = "Call to deprecated class {name} ({reason})"
+
+            @wraps(func)
+            def wrapper(*args, **kwargs):
+                warnings.simplefilter("always", DeprecationWarning)
+                warnings.warn(
+                    msg.format(name=func.__name__, reason=reason),
+                    category=DeprecationWarning,
+                    stacklevel=2,
+                )
+                warnings.simplefilter("default", DeprecationWarning)
+                return func(*args, **kwargs)
+
+            return wrapper
+
+        return decorator
+    elif isclass(reason) or isfunction(reason):
+        _func = reason
+        msg = "Call to deprecated function {name}"
+        if isclass(_func):
+            msg = "Call to deprecated class {name}"
+
+        @wraps(_func)
+        def wrapper(*args, **kwargs):
+            warnings.simplefilter("always", DeprecationWarning)
+            warnings.warn(
+                msg.format(name=_func.__name__),
+                category=DeprecationWarning,
+                stacklevel=2,
+            )
+            warnings.simplefilter("default", DeprecationWarning)
+            return _func(*args, **kwargs)
+
+        return wrapper
+    else:
+        raise TypeError(repr(type(reason)))

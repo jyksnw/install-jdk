@@ -1,5 +1,5 @@
 [tool.poetry]
-description = "install-jdk is a Python library for easily installing the latest Java OpenJDK for a given major version. Supports builds from Adoptium and Corretto. Simplify your Java development with the latest OpenJDK builds."
+description = "install-jdk allows you to easily install latest Java OpenJDK version. Supports OpenJDK builds from Adoptium (previously AdoptOpenJDK), Corretto, and Zulu. Simplify your Java development with the latest OpenJDK builds."
 name = "install-jdk"
 version = "1.0.0"
 keywords = [
@@ -9,8 +9,8 @@ keywords = [
     "Adoptium",
     "Corretto",
     "Zulu",
-    "Microsoft",
     "JDK",
+    "JRE",
 ]
 authors = ["Jason Snow <jason.snow@outlook.com>"]
 license = "MIT"

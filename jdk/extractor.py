@@ -3,6 +3,7 @@ from lzma import LZMAFile
 from lzma import open as lzma_open
 from os import listdir
 from os import path
+from os import stat
 from tarfile import TarFile
 from tarfile import open as tarfile_open
 from typing import Iterable
@@ -58,10 +59,10 @@ def get_compressed_file_ext(file: str) -> str:
         return _SEVEN_ZIP
 
 
-def extract_files(file: str, file_ending: str, destination_folder: str) -> str:
+def extract_files(
+    file: str, file_ending: str, destination_folder: str
+) -> Optional[str]:
     if path.isfile(file):
-        start_listing = set(listdir(destination_folder))
-
         if file_ending == _TAR:
             with tarfile_open(file, "r:") as tar:
                 _safe_extract(tar, path=destination_folder)
@@ -75,7 +76,8 @@ def extract_files(file: str, file_ending: str, destination_folder: str) -> str:
             with lzma_open(file) as z:
                 _safe_extract(z, path=destination_folder)
 
-        end_listing = set(listdir(destination_folder))
-        jdk_directory = next(iter(end_listing.difference(start_listing)))
-
+        jdk_directory = max(
+            listdir(destination_folder),
+            key=lambda d: stat(path.join(destination_folder, d)).st_ctime,
+        )
         return path.join(destination_folder, jdk_directory)
