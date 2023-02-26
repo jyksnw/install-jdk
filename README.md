@@ -155,3 +155,9 @@ See [CONTRIBUTING](CONTRIBUTING.MD)
 To report a security vulnerability, please use the
 [Tidelift security contact](https://tidelift.com/security).
 Tidelift will coordinate the fix and disclosure.
+
+
+## Sponsership
+
+<a href="https://www.buymeacoffee.com/jyksnw" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
