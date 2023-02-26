@@ -159,5 +159,9 @@ Tidelift will coordinate the fix and disclosure.
 
 ## Sponsership
 
+[![GitHub Sponser](https://img.shields.io/static/v1?label=&message=GitHub%20Sponsor&color=db61a2&style=for-the-badge&logo=github)](https://github.com/sponsors/jyksnw)
+
+[![Tidelift](https://img.shields.io/static/v1?label=&message=Tidelift&color=f6914d&style=for-the-badge&logo=tidelift)](https://tidelift.com/funding/github/pypi/install-jdk)
+
 <a href="https://www.buymeacoffee.com/jyksnw" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
