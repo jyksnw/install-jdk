@@ -144,7 +144,7 @@ _This was originally a port of the GitHub Action [`installjdk`](https://github.c
 
 ## License
 
-The `install-jdk` library is open-source and is distributed under the [MIT license]. See the [LICENSE](LICENSE.md) file for more information.
+The `install-jdk` library is open-source and is distributed under the MIT license. See the [LICENSE](LICENSE.md) file for more information.
 
 ## Contribution
 
