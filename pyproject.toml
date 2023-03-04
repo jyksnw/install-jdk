@@ -1,7 +1,7 @@
 [tool.poetry]
 description = "install-jdk allows you to easily install latest Java OpenJDK version. Supports OpenJDK builds from Adoptium (previously AdoptOpenJDK), Corretto, and Zulu. Simplify your Java development with the latest OpenJDK builds."
 name = "install-jdk"
-version = "1.0.0"
+version = "1.0.1"
 keywords = [
     "Java",
     "OpenJDK",
