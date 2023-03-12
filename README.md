@@ -1,4 +1,4 @@
-# install-jdk
+  # install-jdk
 
 ![Python Version](https://img.shields.io/pypi/pyversions/install-jdk) ![MI](https://img.shields.io/github/license/jyksnw/install-jdk) [![Release](https://github.com/jyksnw/install-jdk/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/jyksnw/install-jdk/actions/workflows/release.yml) [![CodeQL](https://github.com/jyksnw/install-jdk/actions/workflows/github-code-scanning/codeql/badge.svg?branch=master)](https://github.com/jyksnw/install-jdk/actions/workflows/github-code-scanning/codeql) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/309b149bb42643bbb08e01e6d0c553f9)](https://www.codacy.com/gh/jyksnw/install-jdk/dashboard?utm_source=github.com&utm_medium=referral&utm_content=jyksnw/install-jdk&utm_campaign=Badge_Grade) ![Commit History](https://img.shields.io/github/commit-activity/m/jyksnw/install-jdk) [![PyPI Downloads Badge](https://img.shields.io/pypi/dm/install-jdk.svg)](https://pypi.org/project/install-jdk/) [![PyPI Version Badge](https://img.shields.io/pypi/v/install-jdk.svg)](https://pypi.org/project/install-jdk/)
 
@@ -144,7 +144,7 @@ _This was originally a port of the GitHub Action [`installjdk`](https://github.c
 
 ## License
 
-The `install-jdk` library is open-source and is distributed under the [MIT license]. See the [LICENSE](LICENSE.md) file for more information.
+The `install-jdk` library is open-source and is distributed under the MIT license. See the [LICENSE](LICENSE.md) file for more information.
 
 ## Contribution
 
@@ -155,3 +155,13 @@ See [CONTRIBUTING](CONTRIBUTING.MD)
 To report a security vulnerability, please use the
 [Tidelift security contact](https://tidelift.com/security).
 Tidelift will coordinate the fix and disclosure.
+
+
+## Sponsor This Project
+
+[![GitHub Sponser](https://img.shields.io/static/v1?label=&message=GitHub%20Sponsor&color=db61a2&style=for-the-badge&logo=github)](https://github.com/sponsors/jyksnw)
+
+[![Tidelift](https://img.shields.io/static/v1?label=&message=Tidelift&color=f6914d&style=for-the-badge&logo=tidelift)](https://tidelift.com/funding/github/pypi/install-jdk)
+
+<a href="https://www.buymeacoffee.com/jyksnw" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
