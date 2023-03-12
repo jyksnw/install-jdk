@@ -62,7 +62,7 @@ The library provides an `install` function, which takes the following parameters
 Here are some example code snippet:
 
 ```python
-jdk.install('11)
+jdk.install('11')
 # Platform dependent install of Java JDK 11 into $HOME/.jdk/<VERSION>
 
 jdk.install('11', jre=True)
