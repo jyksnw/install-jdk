@@ -1,7 +1,7 @@
 import os
 import shutil
 from collections import namedtuple
-from os import path
+from os import path as ospath
 from subprocess import run  # noqa: S404 Security implication noted and mitigated
 from typing import Optional
 from typing import Union
@@ -15,9 +15,9 @@ from jdk.enums import Vendor
 from jdk.extension import deprecated
 
 
-_USER_DIR = path.expanduser("~")
-_JRE_DIR = path.join(_USER_DIR, ".jre")
-_JDK_DIR = path.join(_USER_DIR, ".jdk")
+_USER_DIR = ospath.expanduser("~")
+_JRE_DIR = ospath.join(_USER_DIR, ".jre")
+_JDK_DIR = ospath.join(_USER_DIR, ".jdk")
 
 OS = OperatingSystem.detect()
 ARCH = Architecture.detect()
@@ -35,24 +35,24 @@ class JdkError(Exception):
 
 
 def _path_parse(file_path: str) -> _Path:
-    dirname = path.dirname(file_path)
-    base = path.basename(file_path)
-    name, ext = path.splitext(base)
+    dirname = ospath.dirname(file_path)
+    base = ospath.basename(file_path)
+    name, ext = ospath.splitext(base)
     return _Path(dir=dirname, base=base, name=name, ext=ext)
 
 
 def _unpack_jars(fs_path: str, java_bin_path: str) -> None:
-    if path.exists(fs_path):
-        if path.isdir(fs_path):
+    if ospath.exists(fs_path):
+        if ospath.isdir(fs_path):
             for f in os.listdir(fs_path):
-                current_path = path.join(fs_path, f)
+                current_path = ospath.join(fs_path, f)
                 _unpack_jars(current_path, java_bin_path)
         else:
-            _, file_ext = path.splitext(fs_path)
+            _, file_ext = ospath.splitext(fs_path)
             if file_ext.endswith("pack"):
                 p = _path_parse(fs_path)
-                name = path.join(p.dir, p.name)
-                tool_path = path.join(java_bin_path, _UNPACK200)
+                name = ospath.join(p.dir, p.name)
+                tool_path = ospath.join(java_bin_path, _UNPACK200)
                 run(  # noqa: S603 Known arguments being passed into run
                     [tool_path, _UNPACK200_ARGS, f"{name}.pack", f"{name}.jar"]
                 )
@@ -61,20 +61,20 @@ def _unpack_jars(fs_path: str, java_bin_path: str) -> None:
 def _decompress_archive(
     repo_root: str, file_ending: str, destination_folder: str
 ) -> str:
-    if not path.exists(destination_folder):
+    if not ospath.exists(destination_folder):
         os.mkdir(destination_folder)
 
-    jdk_file = path.normpath(repo_root)
+    jdk_file = ospath.normpath(repo_root)
 
-    if path.isfile(jdk_file):
+    if ospath.isfile(jdk_file):
         jdk_directory = extractor.extract_files(
             jdk_file, file_ending, destination_folder
         )
-        jdk_bin = path.join(jdk_directory, "bin")
+        jdk_bin = ospath.join(jdk_directory, "bin")
         _unpack_jars(jdk_directory, jdk_bin)
 
         return jdk_directory
-    elif path.isdir(jdk_file):
+    elif ospath.isdir(jdk_file):
         return jdk_file
 
 
@@ -116,11 +116,11 @@ def uninstall(version: str, jre: bool = False):
     if jre:
         versions = (v for v in os.listdir(_JRE_DIR) if version in v.replace("-", ""))
         for v in versions:
-            shutil.rmtree(path.join(_JRE_DIR, v))
+            shutil.rmtree(ospath.join(_JRE_DIR, v))
     else:
         versions = (v for v in os.listdir(_JDK_DIR) if version in v.replace("-", ""))
         for v in versions:
-            shutil.rmtree(path.join(_JDK_DIR, v))
+            shutil.rmtree(ospath.join(_JDK_DIR, v))
 
 
 def get_download_url(
