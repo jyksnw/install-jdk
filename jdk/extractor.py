@@ -2,7 +2,7 @@ from contextlib import closing
 from lzma import LZMAFile
 from lzma import open as lzma_open
 from os import listdir
-from os import path
+from os import path as ospath
 from os import stat
 from tarfile import TarFile
 from tarfile import open as tarfile_open
@@ -24,10 +24,10 @@ class ExtractorError(Exception):
 
 
 def _is_within_directory(directory: str, target: str):
-    abs_directory = path.abspath(directory)
-    abs_target = path.abspath(target)
+    abs_directory = ospath.abspath(directory)
+    abs_target = ospath.abspath(target)
 
-    prefix = path.commonprefix([abs_directory, abs_target])
+    prefix = ospath.commonprefix([abs_directory, abs_target])
     return prefix == abs_directory
 
 
@@ -42,7 +42,7 @@ def _safe_extract(
         tar.extractall(path)
     else:
         for member in tar.getmembers():
-            member_path = path.join(path, member.name)
+            member_path = ospath.join(path, member.name)
             if not _is_within_directory(path, member_path):
                 raise ExtractorError("Attempted Path Traversal in Archive File")
         tar.extractall(path, members, numeric_owner=numeric_owner)
@@ -62,7 +62,7 @@ def get_compressed_file_ext(file: str) -> str:
 def extract_files(
     file: str, file_ending: str, destination_folder: str
 ) -> Optional[str]:
-    if path.isfile(file):
+    if ospath.isfile(file):
         if file_ending == _TAR:
             with tarfile_open(file, "r:") as tar:
                 _safe_extract(tar, path=destination_folder)
@@ -78,6 +78,6 @@ def extract_files(
 
         jdk_directory = max(
             listdir(destination_folder),
-            key=lambda d: stat(path.join(destination_folder, d)).st_ctime,
+            key=lambda d: stat(ospath.join(destination_folder, d)).st_ctime,
         )
-        return path.join(destination_folder, jdk_directory)
+        return ospath.join(destination_folder, jdk_directory)
