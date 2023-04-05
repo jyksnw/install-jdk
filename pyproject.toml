@@ -33,7 +33,7 @@ classifiers = [
 Changelog = "https://github.com/jyksnw/install-jdk/releases"
 
 [tool.poetry.dependencies]
-python = "^3.8.1"
+python = "^3.6"
 
 
 [tool.poetry.group.dev.dependencies]
