@@ -4,7 +4,7 @@ from typing import Optional
 
 
 class BaseEnum(str, Enum):
-    def __contains__(self: type[Enum], obj: object) -> bool:
+    def __contains__(self, obj: object) -> bool:
         try:
             self(obj)
         except ValueError:
