@@ -1,7 +1,7 @@
 [tool.poetry]
 description = "install-jdk allows you to easily install latest Java OpenJDK version. Supports OpenJDK builds from Adoptium (previously AdoptOpenJDK), Corretto, and Zulu. Simplify your Java development with the latest OpenJDK builds."
 name = "install-jdk"
-version = "1.0.2"
+version = "1.0.4"
 keywords = [
     "Java",
     "OpenJDK",
@@ -33,23 +33,23 @@ classifiers = [
 Changelog = "https://github.com/jyksnw/install-jdk/releases"
 
 [tool.poetry.dependencies]
-python = "^3.8.1"
+python = "^3.6"
 
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.1.0"
-flake8 = "^6.0.0"
-flake8-bandit = "^4.1.1"
-flake8-bugbear = "^23.2.13"
-flake8-docstrings = "^1.7.0"
-isort = "^5.12.0"
-pep8-naming = "^0.13.3"
-pre-commit = "^3.0.4"
-pre-commit-hooks = "^4.4.0"
-darglint = "^1.8.1"
-mypy = "^1.0.1"
-typeguard = "^2.13.3"
-pyupgrade = "^3.3.1"
+black = {version = "^23.1.0", python = "^3.9"}
+flake8 = {version = "^6.0.0", python = "^3.9"}
+flake8-bandit = {version = "^4.1.1", python = "^3.9"}
+flake8-bugbear = {version = "^23.2.13", python = "^3.9"}
+flake8-docstrings = {version = "^1.7.0", python = "^3.9"}
+isort = {version = "^5.12.0", python = "^3.9"}
+pep8-naming = {version = "^0.13.3", python = "^3.9"}
+pre-commit = {version = "^3.0.4", python = "^3.9"}
+pre-commit-hooks = {version = "^4.4.0", python = "^3.9"}
+darglint = {version = "^1.8.1", python = "^3.9"}
+mypy = {version = "^1.0.1", python = "^3.9"}
+typeguard = {version = "^2.13.3", python = "^3.9"}
+pyupgrade = {version = "^3.3.1", python = "^3.9"}
 
 [tool.isort]
 profile = "black"
