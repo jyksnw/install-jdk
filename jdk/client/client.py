@@ -1,4 +1,3 @@
-import cgi
 import shutil
 import tempfile
 from collections.abc import Iterable
@@ -52,12 +51,10 @@ class Client:
 
         jdk_file = None
         with request.urlopen(req) as open_request:  # noqa: S310
-            info = open_request.info()
-            if "Content-Disposition" in info:
-                content_disposition = info["Content-Disposition"]
-                _, params = cgi.parse_header(content_disposition)
-                if "filename" in params:
-                    jdk_file = params["filename"]
+            headers = open_request.headers
+            content_disposition = headers.get_content_disposition()
+            if content_disposition:
+                jdk_file = headers.get_filename()
             else:
                 url_path = urlsplit(download_url).path
                 jdk_file = path.basename(url_path)

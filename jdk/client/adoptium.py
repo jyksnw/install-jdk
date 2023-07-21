@@ -110,6 +110,11 @@ class AdoptiumClient(Client):
 
         if arch is None:
             arch = Architecture.detect()
+        arch = AdoptiumArchitecture.transform(arch)
+
+        # Handle edge case for MacOS w/Apple M1 or M2
+        if operating_system is OperatingSystem.MAC and arch == AdoptiumArchitecture.ARM:
+            arch = AdoptiumArchitecture.AARCH64
 
         if jre:
             image_type = ImageType.JRE
